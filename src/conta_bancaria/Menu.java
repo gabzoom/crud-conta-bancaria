@@ -2,9 +2,11 @@ package conta_bancaria;
 
 import java.io.IOException;
 import java.util.InputMismatchException;
+import java.util.Optional;
 import java.util.Scanner;
 
 import conta_bancaria.controller.ContaController;
+import conta_bancaria.model.Conta;
 import conta_bancaria.model.ContaCorrente;
 import conta_bancaria.model.ContaPoupanca;
 import conta_bancaria.util.Cores;
@@ -15,9 +17,9 @@ public class Menu {
 
 		Scanner leia = new Scanner(System.in);
 
-		int opcao, numero, agencia, tipo, aniversario;
+		int opcao, numero, agencia, tipo, aniversario, numeroDestino;
 		String titular;
-		float saldo, limite;
+		float saldo, limite, valor;
 
 		ContaController contas = new ContaController();
 
@@ -120,6 +122,41 @@ public class Menu {
 			case 4:
 				System.out.println("Atualizar dados da Conta\n\n");
 
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+
+				Optional<Conta> conta = contas.buscarNaCollection(numero);
+
+				if (conta.isPresent()) {
+					System.out.println("Digite o número da Agência: ");
+					agencia = leia.nextInt();
+
+					System.out.println("Digite o nome do Titular: ");
+					leia.nextLine();
+					titular = leia.nextLine();
+
+					tipo = conta.get().getTipo();
+
+					System.out.println("Digite o saldo da conta: ");
+					saldo = leia.nextFloat();
+
+					switch (tipo) {
+					case 1:
+						System.out.println("Digite o limite da conta: ");
+						limite = leia.nextFloat();
+						contas.atualizar(new ContaCorrente(numero, agencia, tipo, titular, saldo, limite));
+						break;
+					case 2:
+						System.out.println("Digite o dia do aniversário da conta: ");
+						aniversario = leia.nextInt();
+						contas.atualizar(new ContaPoupanca(numero, agencia, tipo, titular, saldo, aniversario));
+						break;
+					}
+
+				} else {
+					System.out.println("A Conta número " + numero + " não foi encontrada!");
+				}
+
 				keyPress();
 				break;
 			case 5:
@@ -135,15 +172,45 @@ public class Menu {
 			case 6:
 				System.out.println("Saque\n\n");
 
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+
+				System.out.println("Digite o valor do Saque: ");
+				valor = leia.nextFloat();
+
+				contas.sacar(numero, valor);
+
 				keyPress();
 				break;
 			case 7:
 				System.out.println("Depósito\n\n");
 
+				System.out.println("Digite o número da conta: ");
+				numero = leia.nextInt();
+
+				System.out.println("Digite o valor do Depósito: ");
+				valor = leia.nextFloat();
+
+				contas.depositar(numero, valor);
+
 				keyPress();
 				break;
 			case 8:
 				System.out.println("Transferência entre Contas\n\n");
+
+				System.out.println("Digite o número da conta de Origem: ");
+				numero = leia.nextInt();
+
+				System.out.println("Digite o número da conta de Destino: ");
+				numeroDestino = leia.nextInt();
+
+				if (numero != numeroDestino) {
+					System.out.println("Digite o valor da Transferência: ");
+					valor = leia.nextFloat();
+					contas.transferir(numero, numeroDestino, valor);
+				} else {
+					System.out.println("Os números das Contas são iguais!");
+				}
 
 				keyPress();
 				break;
