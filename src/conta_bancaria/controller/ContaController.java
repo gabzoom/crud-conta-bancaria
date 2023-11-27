@@ -1,7 +1,9 @@
 package conta_bancaria.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import conta_bancaria.model.Conta;
 import conta_bancaria.repository.ContaRepository;
@@ -25,6 +27,15 @@ public class ContaController implements ContaRepository {
 			System.out.println("A conta número " + numero + " não foi encontrada!");
 	}
 
+	public void procurarPorNome(String titular) {
+		List<Conta> listaNomes = listaContas.stream().filter(c -> c.getTitular().contains(titular))
+				.collect(Collectors.toList());
+
+		for (var conta : listaNomes) {
+			conta.visualizar();
+		}
+	}
+
 	@Override
 	public void listarTodas() {
 		for (var conta : listaContas) {
@@ -46,9 +57,9 @@ public class ContaController implements ContaRepository {
 
 		if (buscaConta.isPresent()) {
 			listaContas.set(listaContas.indexOf(buscaConta.get()), conta);
-			System.out.println("A Conta número " + numero + " foi atualizada com sucesso!");
+			System.out.println("A Conta número " + conta.getNumero() + " foi atualizada com sucesso!");
 		} else {
-			System.out.println("A conta número " + numero + " não foi encontrada!");
+			System.out.println("A conta número " + conta.getNumero() + " não foi encontrada!");
 		}
 	}
 

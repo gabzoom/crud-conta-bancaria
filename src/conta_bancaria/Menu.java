@@ -46,7 +46,8 @@ public class Menu {
 			System.out.println("            6 - Sacar                                ");
 			System.out.println("            7 - Depositar                            ");
 			System.out.println("            8 - Transferir valores entre Contas      ");
-			System.out.println("            9 - Sair                                 ");
+			System.out.println("            9 - Consulta por Titular                 ");
+			System.out.println("            0 - Sair                                ");
 			System.out.println("                                                     ");
 			System.out.println("*****************************************************");
 			System.out.println("Entre com a opção desejada:                          ");
@@ -57,10 +58,10 @@ public class Menu {
 			} catch (InputMismatchException e) {
 				System.out.println("Digite valores inteiros");
 				leia.nextLine();
-				opcao = 0;
+				opcao = 100;
 			}
 
-			if (opcao == 9) {
+			if (opcao == 0) {
 				System.out.println("\nBanco do Brazil com Z - O seu Futuro começa aqui!");
 				sobre();
 				leia.close();
@@ -212,6 +213,16 @@ public class Menu {
 					System.out.println("Os números das Contas são iguais!");
 				}
 
+				keyPress();
+				break;
+			case 9:
+				System.out.println("Consultar Contas por Titular: ");
+
+				System.out.println("Digite o nome do Titular: ");
+				leia.nextLine();
+				titular = leia.nextLine();
+
+				contas.procurarPorNome(titular);
 				keyPress();
 				break;
 			default:
