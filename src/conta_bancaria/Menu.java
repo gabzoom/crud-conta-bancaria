@@ -30,7 +30,7 @@ public class Menu {
 		contas.cadastrar(cp1);
 
 		while (true) {
-			System.out.println(Cores.TEXT_CYAN + Cores.ANSI_BLACK_BACKGROUND);
+			System.out.println(Cores.TEXT_PURPLE_BRIGHT + Cores.ANSI_BLACK_BACKGROUND);
 
 			System.out.println("*****************************************************");
 			System.out.println("                                                     ");
@@ -47,11 +47,12 @@ public class Menu {
 			System.out.println("            7 - Depositar                            ");
 			System.out.println("            8 - Transferir valores entre Contas      ");
 			System.out.println("            9 - Consulta por Titular                 ");
-			System.out.println("            0 - Sair                                ");
+			System.out.println("            0 - Sair                                 ");
 			System.out.println("                                                     ");
 			System.out.println("*****************************************************");
 			System.out.println("Entre com a opção desejada:                          ");
 			System.out.println("                                                     ");
+			System.out.println(Cores.TEXT_RESET);
 
 			try {
 				opcao = leia.nextInt();
